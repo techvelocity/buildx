@@ -21,6 +21,16 @@ func FromKubeConfig(kubeconfig, kubeContext, namespaceOverride string) (Endpoint
 	if err != nil {
 		return Endpoint{}, err
 	}
+	var proxyURLString string
+	if clientcfg.Proxy != nil {
+		proxyURL, err := clientcfg.Proxy(nil)
+		if err != nil {
+			return Endpoint{}, err
+		}
+
+		proxyURLString = proxyURL.String()
+	}
+
 	var ca, key, cert []byte
 	if ca, err = readFileOrDefault(clientcfg.CAFile, clientcfg.CAData); err != nil {
 		return Endpoint{}, err
@@ -52,6 +62,7 @@ func FromKubeConfig(kubeconfig, kubeContext, namespaceOverride string) (Endpoint
 				Host:          clientcfg.Host,
 				SkipTLSVerify: clientcfg.Insecure,
 			},
+			ProxyURL:         proxyURLString,
 			DefaultNamespace: ns,
 			AuthProvider:     clientcfg.AuthProvider,
 			Exec:             clientcfg.ExecProvider,
