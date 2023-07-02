@@ -19,12 +19,11 @@ import (
 	//nolint:staticcheck // vendored dependencies may still use this
 	"github.com/containerd/containerd/pkg/seed"
 
-	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
-
 	_ "github.com/docker/buildx/driver/docker"
 	_ "github.com/docker/buildx/driver/docker-container"
 	_ "github.com/docker/buildx/driver/kubernetes"
 	_ "github.com/docker/buildx/driver/remote"
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
 )
 
 func init() {
