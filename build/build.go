@@ -1464,7 +1464,8 @@ func LoadInputs(ctx context.Context, d driver.Driver, inp Inputs, pw progress.Wr
 			dockerfileDir = filepath.Dir(inp.DockerfilePath)
 			dockerfileName = filepath.Base(inp.DockerfilePath)
 		}
-
+	case isRemoteContext(inp.ContextPath):
+		target.FrontendAttrs["context"] = inp.ContextPath
 	case urlutil.IsGitURL(inp.ContextPath), urlutil.IsURL(inp.ContextPath):
 		if inp.DockerfilePath == "-" {
 			dockerfileReader = inp.InStream

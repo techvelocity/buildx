@@ -25,6 +25,10 @@ func isLocalDir(c string) bool {
 	return err == nil && st.IsDir()
 }
 
+func isRemoteContext(c string) bool {
+	return strings.HasPrefix(c, "remote-context://")
+}
+
 func isArchive(header []byte) bool {
 	for _, m := range [][]byte{
 		{0x42, 0x5A, 0x68},                   // bzip2
